@@ -2,7 +2,9 @@
 
 function Home() {
   return (
-    <div>home</div>
+    <div className=' w-screen h-screen bg-linear-to-l from-[#141414] to-[#0c2025] '>
+
+    </div>
   )
 }
 
