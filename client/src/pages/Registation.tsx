@@ -5,12 +5,14 @@ import { authDataContext } from "../context/authContext";
 import axios from "axios";
 import { auth, provider } from "../util/fireBase";
 import { signInWithPopup } from "firebase/auth";
+import { userDataContext } from "../context/userContext";
 function Registation() {
   const navigate = useNavigate();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const serverUrl = useContext(authDataContext)?.serverUrl;
+  const {getCurrentUser} = useContext(userDataContext)!;
   const handleSignUP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
@@ -19,6 +21,8 @@ function Registation() {
       },
         { withCredentials: true })
       console.log(result.data);
+      getCurrentUser();
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -46,6 +50,7 @@ const googleSignUP = async () => {
     );
 
     console.log(res.data);
+    getCurrentUser()
     navigate("/");
   } catch (error) {
     console.log(error);

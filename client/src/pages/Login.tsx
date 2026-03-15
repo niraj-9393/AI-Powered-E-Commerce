@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom"
 import { authDataContext } from "../context/authContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../util/fireBase";
+import { userDataContext } from "../context/userContext";
 
 function Login() {
   const navigate = useNavigate();
-
+   
+   const {getCurrentUser} = useContext(userDataContext)!;
    const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const serverUrl = useContext(authDataContext)?.serverUrl;
@@ -18,7 +20,9 @@ function Login() {
          email, password
       },
         { withCredentials: true })
+        getCurrentUser()
       console.log(result.data);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -43,6 +47,8 @@ const googleLogin = async () => {
     );
 
     console.log(res.data);
+   getCurrentUser()
+
     navigate("/");
   } catch (error) {
     console.log(error);
