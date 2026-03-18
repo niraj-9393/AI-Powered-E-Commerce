@@ -27,3 +27,38 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
     });
   }
 };
+
+interface AdminRequest extends Request {
+  userId?: string;
+}
+export const isAdminAuth = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { token } = req.cookies;
+
+    if (!token) {
+      return res.status(401).json({
+        message: "No token, access denied"
+      });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload;
+
+    if (!decoded) {
+      return res.status(401).json({
+        message: "Invalid token"
+      });
+    }
+
+    req.userId = decoded.id;
+
+    next();
+
+  } catch (error) {
+    return res.status(401).json({
+      message: "Token verification failed"
+    });
+  }
+};

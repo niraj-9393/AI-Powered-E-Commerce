@@ -20,3 +20,14 @@ export const getCurrUser = async (req: AuthRequest, res: Response) => {
     });
   }
 };
+export const getCurrAdmin = async (req: any, res: Response) => {
+  try {
+    return res.status(200).json({
+      email: req.userId
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error while getting admin"
+    });
+  }
+};

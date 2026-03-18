@@ -16,7 +16,7 @@ function Login() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const result = await axios.post(`${serverUrl}/api/auth/login`, {
+      const result = await axios.post(`${serverUrl}/api/auth/adminlogin`, {
          email, password
       },
         { withCredentials: true })

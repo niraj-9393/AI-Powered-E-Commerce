@@ -1,7 +1,7 @@
 import User from "../models/userSchema";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import generateToken from "../config/jwtToken";
+import { generateToken, generateTokenAdmin } from "../config/jwtToken";
 
 export const Registation = async (req: Request, res: Response) => {
     try {
@@ -102,37 +102,72 @@ export const logout = async (req: Request, res: Response) => {
 }
 
 export const googleLogin = async (req: Request, res: Response) => {
-  try {
-    const { name, email } = req.body;
+    try {
+        const { name, email } = req.body;
 
-    let user = await User.findOne({ email });
+        let user = await User.findOne({ email });
 
 
-    if (!user) {
-      user = await User.create({
-        name,
-        email
-      });
+        if (!user) {
+            user = await User.create({
+                name,
+                email
+            });
+        }
+
+        const token = await generateToken(user._id.toString());
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+            maxAge: 1 * 24 * 60 * 60 * 1000
+        });
+
+        return res.status(200).json({
+            message: "Google login successful",
+            user
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: `google login error: ${error}`
+        });
     }
-
-    const token = await generateToken(user._id.toString());
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, 
-      sameSite: "strict",
-      maxAge: 1 * 24 * 60 * 60 * 1000
-    });
-
-    return res.status(200).json({
-      message: "Google login successful",
-      user
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      message: `google login error: ${error}`
-    });
-  }
 };
 
+export const adminLogin = async (req: Request, res: Response) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Email and password are required"
+            });
+        }
+
+        if (email !== process.env.ADMIN_EMAIL ||  password !== process.env.ADMIN_PASSWORD) {
+            return res.status(400).json({
+                message: "Invalid admin email or password"
+            });
+        }
+        const token = generateTokenAdmin(email);
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        return res.status(200).json({
+            message: "Login successful admin"
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Error while logging in as admin"
+        });
+    }
+};
