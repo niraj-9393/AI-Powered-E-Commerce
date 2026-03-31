@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Hero from "../components/Hero"
+import Product from "./Product"
 
 function Home() {
 interface HeroData {
@@ -24,14 +25,14 @@ interface HeroData {
   }, [])
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-screen ">
 
       <Hero
         heroCount={heroCount}
         setHeroCount={setHeroCount}
         heroData={heroData[heroCount]}
       />
-
+      <Product/>
     </div>
   )
 }

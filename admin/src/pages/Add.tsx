@@ -41,7 +41,10 @@ function Add() {
         setPrice("")
         setSubCategory("TopWear")
         setBestSeller(false)
-        setSizes([])
+        setSizes([]);
+        setImage1(null);
+        setImage2(null);
+        setImage3(null);
       }
     } catch (error) {
       console.log(error);

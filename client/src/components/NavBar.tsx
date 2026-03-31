@@ -41,10 +41,10 @@ function NavBar() {
       </div>
       <div className='w-[50%] lg:w-[40%] hidden md:flex'>
         <ul className='flex items-center justify-center gap-4.75 text-[white]'>
-          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl'>HOME</li>
-          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl'>COLLECTIONS</li>
-          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl'>ABOUT</li>
-          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl'>CONTACT</li>
+          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl' onClick={()=>navigator("/")}>HOME</li>
+          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl' onClick={()=>navigator("/collection")}>COLLECTIONS</li>
+          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl' onClick={()=>navigator("/about")}>ABOUT</li>
+          <li className='text-[15px] hover:bg-slate-500 cursor-pointer bg-[#000000c9] py-2.5 px-5 rounded-2xl' onClick={()=>navigator("/contact")}>CONTACT</li>
         </ul>
       </div>
       <div className='w-[30%] flex items-center justify-end gap-5'>
@@ -102,19 +102,19 @@ function NavBar() {
       )}
       <div className='w-screen h-22.5 flex items-center justify-between px-5 fixed bottom-0 left-0 bg-[#191818] md:hidden text-[12px]'>
 
-        <button className='text-[white] flex items-center justify-center flex-col gap-0.5'>
+        <button onClick={()=>navigator("/")} className='text-[white] flex items-center justify-center flex-col gap-0.5'>
           <IoMdHome className='w-7 h-7 text-[white] md:hidden' />
           Home
         </button>
-        <button className='text-[white] flex items-center justify-center flex-col gap-0.5'>
+        <button onClick={()=>navigator("/collection")} className='text-[white] flex items-center justify-center flex-col gap-0.5'>
           <HiOutlineCollection className='w-7 h-7 text-[white] md:hidden' />
           collections
         </button>
-        <button className='text-[white] flex items-center justify-center flex-col gap-0.5'>
+        <button onClick={()=>navigator("/contact")} className='text-[white] flex items-center justify-center flex-col gap-0.5'>
           <MdOutlinePermContactCalendar className='w-7 h-7 text-[white] md:hidden' />
           contact 
         </button>
-        <button className='text-[white] flex items-center justify-center flex-col gap-0.5'>
+        <button onClick={()=>navigator("/")} className='text-[white] flex items-center justify-center flex-col gap-0.5'>
           <MdOutlineShoppingCart className='w-7 h-7 text-[white] md:hidden' />
           cart
         </button>
