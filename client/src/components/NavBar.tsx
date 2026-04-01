@@ -11,14 +11,14 @@ import axios from "axios";
 import { IoMdHome } from "react-icons/io";
 import { HiOutlineCollection } from "react-icons/hi";
 import { MdOutlinePermContactCalendar } from "react-icons/md";
+import { shopDataContext } from "../context/ShopContext";
 function NavBar() {
   const { userData, getCurrentUser } = useContext(userDataContext)!;
-  const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const navigator = useNavigate();
   const serverUrl = useContext(authDataContext)?.serverUrl;
-  //handle logout function 
-
+  const {search,setSearch,showSearch,setShowSearch} = useContext(shopDataContext)!
+ 
   const handleLogout = async () => {
     try {
       const result = await axios.get(`${serverUrl}/api/auth/logout`, {
@@ -49,7 +49,9 @@ function NavBar() {
       </div>
       <div className='w-[30%] flex items-center justify-end gap-5'>
         {!showSearch &&
-          <IoSearchCircleOutline className='w-9.5 h-9.5 text-black cursor-pointer' onClick={() => setShowSearch(prev => !prev)} />
+          <IoSearchCircleOutline className='w-9.5 h-9.5 text-black cursor-pointer' onClick={() => {setShowSearch(prev => !prev);
+            navigator("/collection")
+          }} />
         }
         {showSearch && <IoSearchCircleSharp className='w-9.5 h-9.5 text-black cursor-pointer' onClick={() => setShowSearch(prev => !prev)} />
         }
@@ -64,7 +66,7 @@ function NavBar() {
       </div>
       {showSearch &&
         <div className='w-full h-20 bg-[#d8f6f9dd] absolute top-full left-0 right-0 flex items-center justify-center '>
-          <input type="text" className='w-[50%] h-[60%] bg-[#233533] rounded-[30px] px-12.5 placeholder:text-white text-[white] text-[18px]' placeholder='Search here' />
+          <input type="text" className='w-[50%] h-[60%] bg-[#233533] rounded-[30px] px-12.5 placeholder:text-white text-[white] text-[18px]' placeholder='Search here' value={search} onChange={(e) =>setSearch(e.target.value)}/>
         </div>}
       {showProfile && (
         <div className="absolute w-5550px] bg-[#000000d7] top-[110%] right-[4%] border border-[#aaa9a9] rounded-[10px] z-10">
