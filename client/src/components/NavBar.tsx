@@ -12,6 +12,7 @@ import { IoMdHome } from "react-icons/io";
 import { HiOutlineCollection } from "react-icons/hi";
 import { MdOutlinePermContactCalendar } from "react-icons/md";
 import { shopDataContext } from "../context/ShopContext";
+ import logo from "../assets/vcart logo.png"
 function NavBar() {
   const { userData, getCurrentUser } = useContext(userDataContext)!;
   const [showProfile, setShowProfile] = useState<boolean>(false);
@@ -35,8 +36,8 @@ function NavBar() {
 
   return (
     <div className='w-screen h-17.5 bg-[#ecfafaec] z-10 fixed top-0 flex items-center justify-between px-7.5 shadow-md shadow-black'>
-      <div className='w-[20%] lg:w-[30%] flex items-center justify-start gap-2.5'>
-        <img src="vcart logo.png" alt="logo" className='w-7.5' />
+      <div className='w-[20%] lg:w-[30%] flex items-center justify-start gap-2.5' onClick={()=>navigator("/")}>
+        <img src={logo} alt="logo" className='w-7.5' />
         <h1 className='text-[25px] text-[black] font-sans'>OneCart</h1>
       </div>
       <div className='w-[50%] lg:w-[40%] hidden md:flex'>

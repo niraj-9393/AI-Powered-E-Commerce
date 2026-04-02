@@ -37,6 +37,7 @@ function BestSeller() {
             name={item.name}
             price={item.price}
             image={item.image1}
+             id = {item._id}
           />
         ))}
       </div>

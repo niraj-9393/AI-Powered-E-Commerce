@@ -1,16 +1,19 @@
 
 import { useContext } from 'react';
-import { shopDataContext } from '../context/shopContext'
+import { shopDataContext } from '../context/ShopContext';
+import { useNavigate } from 'react-router-dom';
 
-function Card({ image, name, price }: { image: string, name: string, price: number }) {
+
+function Card({ image, name, price,id }: { image: string, name: string, price: number,id:string }) {
     const context = useContext(shopDataContext);
 
     if (!context) return null; 
 
     const { currency } = context;
-
+    const navigate = useNavigate()
     return (
-        <div className='w-75 max-w-[90%] h-100 bg-[#ffffff0a] backdrop-blur-lg rounded-lg hover:scale-[102%] flex items-start justify-start flex-col p-2.5 cursor-pointer border border-[#80808049]'>
+        <div className='w-75 max-w-[90%] h-100 bg-[#ffffff0a] backdrop-blur-lg rounded-lg hover:scale-[102%] flex items-start justify-start flex-col p-2.5 cursor-pointer border border-[#80808049]'
+        onClick={() => { navigate(`/product-details/${id}`); window.scrollTo(0, 0) }}>
             <img src={image} alt="" className='w-full h-[80%] rounded-sm object-cover' />
 
             <div className='text-[#c3f6fa] text-[18px] py-2.5'>

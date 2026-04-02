@@ -31,6 +31,7 @@ function LatestCollection() {
               name={item.name}
               image={item.image1}
               price={item.price}
+              id = {item._id}
             />
           ))
         }

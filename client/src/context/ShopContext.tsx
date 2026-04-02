@@ -14,9 +14,10 @@ type Product = {
   category: string;
   subCategory: string;
   bestseller: boolean;
+   sizes: string[];
 };
 
-// ✅ Context type (FIXED)
+
 type ShopContextType = {
   products: Product[] | null;
   setProducts: React.Dispatch<React.SetStateAction<Product[] | null>>;

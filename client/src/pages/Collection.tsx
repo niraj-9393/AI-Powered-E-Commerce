@@ -13,14 +13,15 @@ type product = {
   category: string;
   subCategory: string;
   bestseller: boolean;
+  _id: string;
 }
 function Collection() {
   const products = useContext(shopDataContext)?.products
-  const {search,showSearch} = useContext(shopDataContext)!
+  const { search, showSearch } = useContext(shopDataContext)!
   const [category, setCategory] = useState<string[]>([]);
   const [subCategory, setSubCategory] = useState<string[]>([]);
   const [filterProducts, setFilterProducts] = useState<product[]>([]);
-  const [sortType,setSortType] = useState('relavent')
+  const [sortType, setSortType] = useState('relavent')
   const toggleCategory = (e: any) => {
     if (category.includes(e.target.value)) {
       setCategory((prev) => prev.filter((item) => item !== e.target.value));
@@ -33,13 +34,13 @@ function Collection() {
       setSubCategory((prev) => prev.filter((item) => item !== e.target.value));
     } else {
       setSubCategory((prev) => [...prev, e.target.value])
-    } 
+    }
   }
   const applyFilter = () => {
-  
+
     let productsCopy = products;
-      if(showSearch && search) {
-      productsCopy = productsCopy?.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase()))
+    if (showSearch && search) {
+      productsCopy = productsCopy?.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
     }
     if (category.length > 0) {
       productsCopy = productsCopy?.filter((item) => category.includes(item.category));
@@ -52,32 +53,32 @@ function Collection() {
   }
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory,search,showSearch])
+  }, [category, subCategory, search, showSearch])
 
 
   const sortProducts = () => {
-  let fbCopy = [...filterProducts]
+    let fbCopy = [...filterProducts]
 
-  switch (sortType) {
-    case 'low-high':
-      setFilterProducts(
-        fbCopy.sort((a, b) => a.price - b.price)
-      );
-      break;
+    switch (sortType) {
+      case 'low-high':
+        setFilterProducts(
+          fbCopy.sort((a, b) => a.price - b.price)
+        );
+        break;
 
-    case 'high-low':
-      setFilterProducts(
-        fbCopy.sort((a, b) => b.price - a.price)
-      );
-      break;
+      case 'high-low':
+        setFilterProducts(
+          fbCopy.sort((a, b) => b.price - a.price)
+        );
+        break;
 
-    default:
-      break;
+      default:
+        break;
+    }
   }
-}
-useEffect(()=>{
-sortProducts()
-},[sortType])
+  useEffect(() => {
+    sortProducts()
+  }, [sortType])
   return (
     <div className='w-screen min-h-screen bg-linear-to-l from-[#141414] to-[#0c2025] flex items-start flex-col md:flex-row justify-start pt-17.5 overflow-x-hidden z-2'>
       <div className='md:w-[30vw] lg:w-[20vw] w-screen md:min-h-screen p-5 border-r border-gray-400 text-[#aaf5fa] lg:fixed'>
@@ -127,7 +128,7 @@ sortProducts()
       <div className='lg:pl-[20%] md:py-2.5'>
         <div className='md:w-[80vw] w-screen p-5 flex justify-between flex-col lg:flex-row lg:px-12.5'>
           <Title text1={"ALL"} text2={"COLLECTIONS"} />
-          <select name="" id="" className='bg-slate-600 w-[60%] md:w-50 h-12.5 px-2.5 text-[white] rounded-lg hover:border-[#46d1f7] border-2' onChange={(e) =>setSortType(e.target.value)}>
+          <select name="" id="" className='bg-slate-600 w-[60%] md:w-50 h-12.5 px-2.5 text-[white] rounded-lg hover:border-[#46d1f7] border-2' onChange={(e) => setSortType(e.target.value)}>
             <option value="relavent" className='w-full h-full'>Sort By: Relavent</option>
             <option value="low-high" className='w-full h-full'>Sort By: Low to High</option>
             <option value="high-low" className='w-full h-full'>Sort By: High to Low</option>
@@ -141,6 +142,7 @@ sortProducts()
                 name={item.name}
                 price={item.price}
                 image={item.image1}
+                id={item._id}
               />
             ))
           }

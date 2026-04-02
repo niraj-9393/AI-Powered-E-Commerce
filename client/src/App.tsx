@@ -9,6 +9,7 @@ import About from "./pages/About"
 import Collection from "./pages/Collection"
 import Contact from "./pages/Contact"
 import Product from "./pages/Product"
+import ProjectDetails from "./components/ProjectDetails"
 
 
 function App() {
@@ -58,7 +59,15 @@ function App() {
               : <Navigate to="/login" state={{ from: location.pathname }} />
           }
         />
+        <Route
+          path="/product-details/:productId"
+          element={
+            userData
+              ? <ProjectDetails />
+              : <Navigate to="/login" state={{ from: location.pathname }} />
+          }
 
+        />
         <Route
           path="/collection"
           element={
@@ -84,6 +93,7 @@ function App() {
               ? <Product />
               : <Navigate to="/login" state={{ from: location.pathname }} />
           }
+
         />
 
       </Routes>
