@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { authDataContext } from "./authContext";
 import axios from "axios";
 
-// ✅ Product type
 type Product = {
   _id: string;
   name: string;
@@ -14,9 +13,14 @@ type Product = {
   category: string;
   subCategory: string;
   bestseller: boolean;
-   sizes: string[];
+  sizes: string[];
 };
 
+type CartItem = {
+  productId: string;
+  size: string;
+  quantity: number;
+};
 
 type ShopContextType = {
   products: Product[] | null;
@@ -28,6 +32,11 @@ type ShopContextType = {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   showSearch: boolean;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  cartItems: CartItem[];
+  addToCart: (productId: string, size: string) => void;
+  getCartCount: () => number;
+  updateCart: (productId: string, size: string, quantity: number) => void;
+  getUserCart: () => Promise<void>;
 };
 
 
@@ -40,8 +49,44 @@ function ShopContext({ children }: { children: React.ReactNode }) {
   const [products, setProducts] = useState<Product[] | null>(null);
   const [search, setSearch] = useState<string>("");
   const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
+
+  //add to cart func
+  const addToCart = async (productId: string, size: string) => {
+    if (!size) {
+      alert("Please select a size first!")
+      return
+    }
+    setCartItems((prev) => {
+      const existing = prev.find(
+        (item) => item.productId === productId && item.size === size
+      )
+      if (existing) {
+        return prev.map((item) =>
+          item.productId === productId && item.size === size
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      } else {
+        return [...prev, { productId, size, quantity: 1 }]
+      }
+    })
 
 
+    try {
+      await axios.post(
+        `${serverUrl}/api/cart/add`,
+        { productId, size },
+        { withCredentials: true }
+      )
+    } catch (error) {
+      console.error("Error adding to cart:", error)
+    }
+  }
+
+  const getCartCount = () => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0)
+  }
   const getProducts = async () => {
     try {
       const response = await axios.get<{ product: Product[] }>(
@@ -55,10 +100,73 @@ function ShopContext({ children }: { children: React.ReactNode }) {
     }
   };
 
- 
+
+  // update cart
+  const updateCart = async (productId: string, size: string, quantity: number) => {
+
+    setCartItems((prev) => {
+      if (quantity === 0) {
+
+        return prev.filter(
+          (item) => !(item.productId === productId && item.size === size)
+        )
+      }
+      return prev.map((item) =>
+        item.productId === productId && item.size === size
+          ? { ...item, quantity }
+          : item
+      )
+    })
+
+
+    try {
+      await axios.post(
+        `${serverUrl}/api/cart/update`,
+        { productId, size, quantity },
+        { withCredentials: true }
+      )
+    } catch (error) {
+      console.error("Error updating cart:", error)
+    }
+  }
+
+ const getUserCart = async () => {
+  try {
+    const response = await axios.get(`${serverUrl}/api/cart/get`, {
+      withCredentials: true
+    })
+
+    const cartData = response.data.cartData as Record<string, Record<string, number>>
+
+    
+    if (!cartData || Object.keys(cartData).length === 0) {
+      setCartItems([])
+      return
+    }
+
+    const items: CartItem[] = []
+    Object.entries(cartData).forEach(([productId, sizes]) => {
+      if (sizes && typeof sizes === "object") {
+        Object.entries(sizes).forEach(([size, quantity]) => {
+          if (quantity > 0) {
+            items.push({ productId, size, quantity })
+          }
+        })
+      }
+    })
+
+    setCartItems(items)
+  } catch (error) {
+    console.error("Error fetching cart:", error)
+    setCartItems([])
+  }
+}
+
+
   useEffect(() => {
     if (serverUrl) {
       getProducts();
+      getUserCart()
     }
   }, [serverUrl]);
 
@@ -75,6 +183,11 @@ function ShopContext({ children }: { children: React.ReactNode }) {
     setSearch,
     showSearch,
     setShowSearch,
+    cartItems,
+    addToCart,
+    getCartCount,
+    updateCart,
+    getUserCart,
   };
 
   return (

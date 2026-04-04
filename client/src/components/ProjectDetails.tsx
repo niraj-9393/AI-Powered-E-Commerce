@@ -22,7 +22,7 @@ function ProjectDetails() {
   const context = useContext(shopDataContext)
   const products = context?.products
   const currency = context?.currency
-
+  const addToCart = useContext(shopDataContext)?.addToCart
   const [productData, setProductData] = useState<Product | null>(null)
   const [image, setImage] = useState("")
   const [size, setSize] = useState("")
@@ -145,7 +145,7 @@ function ProjectDetails() {
             </div>
 
             {/* Add to Cart */}
-            <button className="w-full max-w-xs py-3.5 rounded-full bg-[#2a3a40] hover:bg-[#374f57] border border-white/10 text-white text-sm font-medium tracking-wide transition-all duration-200 active:scale-[0.98]">
+            <button className="w-full max-w-xs py-3.5 rounded-full bg-[#2a3a40] hover:bg-[#374f57] border border-white/10 text-white text-sm font-medium tracking-wide transition-all duration-200 active:scale-[0.98]" onClick={() =>addToCart?.(productData._id,size)}>
               Add To Cart
             </button>
 

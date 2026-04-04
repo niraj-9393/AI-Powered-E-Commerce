@@ -10,6 +10,7 @@ import Collection from "./pages/Collection"
 import Contact from "./pages/Contact"
 import Product from "./pages/Product"
 import ProjectDetails from "./components/ProjectDetails"
+import Cart from "./pages/Cart"
 
 
 function App() {
@@ -64,6 +65,15 @@ function App() {
           element={
             userData
               ? <ProjectDetails />
+              : <Navigate to="/login" state={{ from: location.pathname }} />
+          }
+
+        />
+        <Route
+          path="/cart"
+          element={
+            userData
+              ? <Cart />
               : <Navigate to="/login" state={{ from: location.pathname }} />
           }
 

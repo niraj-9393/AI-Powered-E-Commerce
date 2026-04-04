@@ -19,7 +19,7 @@ function NavBar() {
   const navigator = useNavigate();
   const serverUrl = useContext(authDataContext)?.serverUrl;
   const {search,setSearch,showSearch,setShowSearch} = useContext(shopDataContext)!
- 
+  const getCartCount = useContext(shopDataContext)?.getCartCount;
   const handleLogout = async () => {
     try {
       const result = await axios.get(`${serverUrl}/api/auth/logout`, {
@@ -60,9 +60,9 @@ function NavBar() {
 
         {userData && <div className='w-7.5 h-7.5 bg-[#080808] text-[white] rounded-full flex items-center justify-center cursor-pointer' onClick={() => setShowProfile((prev) => !prev)}>{userData?.name.slice(0, 1)}</div>}
 
-        <MdOutlineShoppingCart className='w-7.5 h-7.5 text-black cursor-pointer hidden md:block' />
+        <MdOutlineShoppingCart className='w-7.5 h-7.5 text-black cursor-pointer hidden md:block' onClick={()=>navigator("/cart")} />
         <p className='absolute w-4.5 h-4.5 items-center justify-center bg-black px-1.25 py-0.5 text-white rounded-full text-[9px] top-2.5 right-5.75 hidden md:block'>
-          10</p>
+          { getCartCount?.() ?? 0}</p>
 
       </div>
       {showSearch &&
@@ -117,7 +117,7 @@ function NavBar() {
           <MdOutlinePermContactCalendar className='w-7 h-7 text-[white] md:hidden' />
           contact 
         </button>
-        <button onClick={()=>navigator("/")} className='text-[white] flex items-center justify-center flex-col gap-0.5'>
+        <button onClick={()=>navigator("/cart")} className='text-[white] flex items-center justify-center flex-col gap-0.5'>
           <MdOutlineShoppingCart className='w-7 h-7 text-[white] md:hidden' />
           cart
         </button>
