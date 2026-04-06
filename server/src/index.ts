@@ -7,6 +7,7 @@ import cors,{ CorsOptions } from "cors";
 import userRouter from "./routers/userRouter";
 import productRouter from "./routers/productRouter";
 import cartRouter from "./routers/cartRouter";
+import orderRouter from "./routers/orderRouter";
 
 
 
@@ -33,6 +34,7 @@ app.use('/api/auth',authRouter);
 app.use('/api/user',userRouter);
 app.use('/api/product',productRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 const PORT = Number(process.env.PORT) || 6000;
 
 app.listen(PORT, () => {

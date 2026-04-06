@@ -3,6 +3,7 @@ import { shopDataContext } from "../context/ShopContext";
 import { useNavigate } from "react-router-dom";
 import Title from "../components/Title";
 
+
 type CartData = {
   _id: string;
   size: string;
@@ -149,7 +150,7 @@ function Cart() {
             </div>
 
             {/* Summary box */}
-            <div className="lg:w-95 flex flex-col gap-4 bg-white/4 border border-white/10 rounded-2xl p-6">
+                <div className="lg:w-95 flex flex-col gap-4 bg-white/4 border border-white/10 rounded-2xl p-6">
               <Title text1="ORDER" text2="SUMMARY" />
 
               <div className="flex flex-col gap-3 text-sm mt-2">

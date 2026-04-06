@@ -14,6 +14,7 @@ import { MdOutlinePermContactCalendar } from "react-icons/md";
 import { shopDataContext } from "../context/ShopContext";
  import logo from "../assets/vcart logo.png"
 function NavBar() {
+  const navigate = useNavigate()
   const { userData, getCurrentUser } = useContext(userDataContext)!;
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const navigator = useNavigate();
@@ -91,11 +92,11 @@ function NavBar() {
               LogOut
             </li>}
 
-            <li className="w-full hover:bg-[#2f2f2f] px-3.75 py-2.5 cursor-pointer">
+            <li onClick = {()=>navigate("/order")} className="w-full hover:bg-[#2f2f2f] px-3.75 py-2.5 cursor-pointer">
               Orders
             </li>
 
-            <li className="w-full hover:bg-[#2f2f2f] px-3.75 py-2.5 cursor-pointer">
+            <li onClick = {()=>navigate("/about")} className="w-full hover:bg-[#2f2f2f] px-3.75 py-2.5 cursor-pointer">
               About
             </li>
 

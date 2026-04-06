@@ -11,6 +11,9 @@ import Contact from "./pages/Contact"
 import Product from "./pages/Product"
 import ProjectDetails from "./components/ProjectDetails"
 import Cart from "./pages/Cart"
+import PlaceOrder from "./pages/PlaceOrder"
+
+import Orders from "./pages/Orders"
 
 
 function App() {
@@ -74,6 +77,24 @@ function App() {
           element={
             userData
               ? <Cart />
+              : <Navigate to="/login" state={{ from: location.pathname }} />
+          }
+
+        />
+        <Route
+          path="/place-order"
+          element={
+            userData
+              ? <PlaceOrder />
+              : <Navigate to="/login" state={{ from: location.pathname }} />
+          }
+
+        />
+        <Route
+          path="/order"
+          element={
+            userData
+              ? <Orders />
               : <Navigate to="/login" state={{ from: location.pathname }} />
           }
 
